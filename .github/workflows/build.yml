@@ -1,0 +1,38 @@
+名称: 构建管理器 APK
+
+在:
+  workflow_dispatch:
+
+任务:
+构建:
+    runs-on: ubuntu-latest
+步骤:
+      - 名称: 结账
+使用: ctions/checkout@v4
+
+      - 名称: 设置 JDK 17
+使用: actions/setup-java@v4
+与:
+          java-version: '17'
+分发: 'temurin'
+
+      - 名称: 设置 Rust
+运行: |
+rustup 添加 aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
+
+      - 名称: 构建管理器
+运行: |
+编译 Rust 守护进程 (ksud)
+cd userspace/ksud
+cargo build --release --target aarch64-linux-android
+          
+# 编译 APK
+cd ../..
+chmod +x gradlew
+./gradlew :manager:assembleRelease
+
+      - name: Upload APK
+使用: actions/upload-artifact@v4
+带有:
+名称: My-KernelSU-Manager
+路径: manager/build/outputs/apk/release/*.apk
