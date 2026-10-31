@@ -146,10 +146,10 @@ android {
         targetSdk = androidTargetSdkVersion
         versionCode = managerVersionCode
         versionName = managerVersionName
-        applicationId = managerPackageName
+        applicationId = "com.zhoerbing"
 
         buildConfigField("boolean", "IS_PR_BUILD", isPrBuild.toString())
-        resValue("string", "app_name", managerName)
+        resValue("string", "app_name", "中二病也要谈恋爱")
 
         externalNativeBuild {
             cmake {
